@@ -4,3 +4,156 @@
 *:after {
   box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+#wrapper {
+  margin: 1rem;
+}
+
+#top-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#top-header a {
+  text-decoration: none;
+  color: #303030;
+}
+
+.siteName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  
+}
+
+#tools {
+  padding-top: 10px;
+  font-size: 12px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-color: #1E1E1E;
+  margin: 0 auto;
+  padding: 0.7rem;
+}
+
+.navigation li {
+  list-style: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--light-grey);
+}
+
+h1 {
+  font-size: 1rem;
+  margin: 1.5rem 0;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero picture {
+  display: block;
+  text-align: center;
+}
+
+.hero picture img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+.desc {
+  position: absolute;
+  bottom: .7rem;
+  background-color: #FEFEFE;
+  line-height: 5px;
+  opacity: .8;
+  color: #0CB3D6;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.desc h2 {
+  font-size: 1rem;
+}
+
+.desc p {
+  font-size: 12px;
+}
+
+.desc img {
+  border: none;
+  width: 80px;
+  height: 30px;
+}
+
+.contents {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+.reviews ul {
+  margin: 0;
+  padding: 0;
+}
+
+.reviews li {
+  margin-left: 1rem;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.upgrades {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.upgrades figure {
+  margin: 0;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.upgrades img {
+  background-color: #01B0D3;
+  padding: .5rem;
+  width: 95%; 
+  height: 90px; 
+  object-fit: contain;
+  border: 1px solid black;
+}
+
+.upgrades figcaption {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3131F5;
+  text-decoration: underline;
+}
+
+.copyright {
+  font-size: 14px;
+  font-weight: 600;
+}

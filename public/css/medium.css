@@ -1,0 +1,64 @@
+@media only screen and (min-width: 500px) {
+    body {
+        background-image: url("/images/site/small_check.jpg");
+    }
+
+    #wrapper {
+        border: 5px solid #13B7D9;
+        background-color: #FFFFFF;
+        margin: 1rem 2rem;
+        border-radius: 5px;
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .hero {
+        margin-bottom: 2rem;
+    }
+
+    .desc {
+        bottom: 3rem;
+        line-height: 10px;
+        left: 10%;
+      }
+      
+      .desc h2 {
+        font-size: 1.8rem;
+      }
+      
+      .desc p {
+        font-size: 1.2rem;
+      }
+      
+      .desc img {
+        width: 180px;
+        height: 50px;
+        margin-top: 1rem;
+      }
+
+      .contents {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .reviews {
+        order: 2;
+      }
+
+      .reviews h2 {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+      }
+
+      .reviews li {
+        font-size: 1.1rem;
+        line-height: 2.5rem;
+      }
+
+      .section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+      }
+}
