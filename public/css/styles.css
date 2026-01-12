@@ -84,23 +84,30 @@ h1 {
   background-color: #FEFEFE;
   line-height: 5px;
   opacity: .8;
-  color: #0CB3D6;
+  color: #005A70;
   font-weight: 600;
   margin-left: 5px;
 }
 
 .desc h2 {
   font-size: 1rem;
+  z-index: 1000;
+  opacity: 1;
 }
 
 .desc p {
   font-size: 12px;
+  font-weight: 700;
+  opacity: 1;
+  z-index: 1000;
 }
 
 .desc img {
   border: none;
   width: 80px;
   height: 30px;
+  opacity: 1;
+  z-index: 1000;
 }
 
 .contents {
