@@ -55,6 +55,11 @@ body {
   list-style: none;
   font-size: 12px;
   font-weight: 600;
+  /* color: #d0d0d0; */
+}
+
+.navigation li a {
+  text-decoration: none;
   color: #d0d0d0;
 }
 

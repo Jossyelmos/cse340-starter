@@ -15,6 +15,10 @@
         font-size: 2rem;
     }
 
+    .navigation li {
+      font-size: 1rem;
+    }
+
     .hero {
         margin-bottom: 2rem;
     }
