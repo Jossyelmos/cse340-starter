@@ -4,9 +4,8 @@ const Util = {}
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
+Util.getNav = async function () {
   let data = await invModel.getClassifications()
-  console.log(data)
   let list = "<ul class='navigation'>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
@@ -25,7 +24,6 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -35,34 +33,57 @@ Util.buildClassificationGrid = async function(data){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
       grid += '<li>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
+      grid +=  '<a href="/inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
+      + ' details"><img src="' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
+      grid += '<a href="/inv/detail/' + vehicle.inv_id +'" title="View '  
+      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'  
       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
+      grid += '<span>$'  
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
     })
     grid += '</ul>'
   } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
 }
 
+/* **************************************
+* Build the inventory detail HTML
+* ************************************ */
+Util.buildInventoryDetail = async function(data) {
+  let detail = ""
+  if (data.length > 0) {
+    const item = data[0]
+    detail = `
+      <div class="vehicle-detail">
+        <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}" class="vehicle-image"/>
+        <div class="vehicle-info">
+          <h1>${item.inv_make} ${item.inv_model}</h1>
+          <p><strong>Year:</strong> ${item.inv_year}</p>
+          <p><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(item.inv_price)}</p>
+          <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(item.inv_miles)} miles</p>
+          <p><strong>Description:</strong> ${item.inv_description}</p>
+        </div>
+      </div>
+    `
+  } else {
+    detail = "<p class='notice'>Sorry, vehicle not found.</p>"
+  }
+  return detail
+}
+
 /* ****************************************
  * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
