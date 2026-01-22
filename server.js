@@ -1,69 +1,131 @@
+// /* ******************************************
+//  * This server.js file is the primary file of the 
+//  * application. It is used to control the project.
+//  *******************************************/
+// /* ***********************
+//  * Require Statements
+//  *************************/
+// const express = require("express");
+// const expressLayouts = require("express-ejs-layouts");
+// const env = require("dotenv").config();
+// const app = express();
+// const static = require("./routes/static");
+// const baseController = require("./controllers/baseController");
+// const inventoryRoute = require("./routes/inventoryRoute");
+// const utilities = require("./utilities/");
+
+// /* ***********************
+//  * View Engine and Templates
+//  *************************/
+
+// app.set("view engine", "ejs");
+// app.use(expressLayouts);
+// app.set("layout", "./layouts/layout");
+
+// /* ***********************
+//  * Routes
+//  *************************/
+// app.use(static)
+
+// // Index route
+// app.get("/", utilities.handleErrors(baseController.buildHome));
+
+// // Inventory routes
+// app.use("/inv", inventoryRoute);
+
+// // File Not Found Route - must be last route in list
+// app.use(async (req, res, next) => {
+//   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+// })
+
+
+// /* ***********************
+// * Express Error Handler
+// * Place after all other middleware
+// *************************/
+// app.use(async (err, req, res, next) => {
+//   let nav = await utilities.getNav()
+//   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+//   if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+//   res.render("errors/error", {
+//     title: err.status || 'Server Error',
+//     message,
+//     nav
+//   })
+// })
+
+// /* ***********************
+//  * Local Server Information
+//  * Values from .env (environment) file
+//  *************************/
+// const port = process.env.PORT
+// const host = process.env.HOST
+
+// /* ***********************
+//  * Log statement to confirm server operation
+//  *************************/
+// app.listen(port, () => {
+//   console.log(`app listening on ${host}:${port}`)
+// })
+
+
+
 /* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
+ * Main server.js for application
  *******************************************/
-/* ***********************
- * Require Statements
- *************************/
+
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const env = require("dotenv").config();
+require("dotenv").config();
+
 const app = express();
+
+// Import routes & utilities
 const static = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
 
-/* ***********************
- * View Engine and Templates
- *************************/
-
+// ------------------
+// View Engine
+// ------------------
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout");
 
-/* ***********************
- * Routes
- *************************/
-app.use(static)
-
-// Index route
+// ------------------
+// Routes
+// ------------------
+app.use(static);
 app.get("/", utilities.handleErrors(baseController.buildHome));
-
-// Inventory routes
 app.use("/inv", inventoryRoute);
 
-// File Not Found Route - must be last route in list
+// 404 handler (must be last)
 app.use(async (req, res, next) => {
-  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
-})
+  next({ status: 404, message: "Sorry, we appear to have lost that page." });
+});
 
-
-/* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
+// Express Error Handler
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  const nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+  const message =
+    err.status === 404
+      ? err.message
+      : "Oh no! There was a crash. Maybe try a different route?";
   res.render("errors/error", {
-    title: err.status || 'Server Error',
+    title: err.status || "Server Error",
     message,
-    nav
-  })
-})
+    nav,
+  });
+});
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+// ------------------
+// Server Listening
+// ------------------
+const PORT = process.env.PORT || 5500; // Render assigns automatically
+const HOST = "0.0.0.0"; // Required for Render
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+app.listen(PORT, HOST, () => {
+  console.log(`App listening on ${HOST}:${PORT}`);
+});
