@@ -37,9 +37,9 @@ Util.buildClassificationGrid = async function(data){
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + ' details"><img src="' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      +' on CSE Motors" ></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
+      grid += '<hr >'
       grid += '<h2>'
       grid += '<a href="/inv/detail/' + vehicle.inv_id +'" title="View '  
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'  
@@ -66,13 +66,15 @@ Util.buildInventoryDetail = async function(data) {
     const item = data[0]
     detail = `
       <div class="vehicle-detail">
-        <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}" class="vehicle-image"/>
+        <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}" class="vehicle-image">
         <div class="vehicle-info">
-          <h1>${item.inv_make} ${item.inv_model}</h1>
-          <p><strong>Year:</strong> ${item.inv_year}</p>
-          <p><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(item.inv_price)}</p>
-          <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(item.inv_miles)} miles</p>
-          <p><strong>Description:</strong> ${item.inv_description}</p>
+          <h1>${item.inv_year} ${item.inv_make} ${item.inv_model}</h1>
+          <div class="vehicle-subInfo">
+            <p class="price"><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(item.inv_price)}</p>
+            <p><strong>Description:</strong> ${item.inv_description}</p>
+            <p class="color"><strong>Color:</strong> ${item.inv_color}</p>
+            <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(item.inv_miles)} miles</p>
+          </div>
         </div>
       </div>
     `

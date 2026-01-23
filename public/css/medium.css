@@ -65,4 +65,28 @@
         font-size: 1.3rem;
         margin-bottom: 2.5rem;
       }
+
+      .vehicle-detail {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: flex-start;
+      }
+    
+      .vehicle-image {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        margin-bottom: 0; 
+      }
+    
+      .vehicle-info {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .vehicle-subInfo p {
+        font-size: 1rem;
+      }
+    
 }

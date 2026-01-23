@@ -29,10 +29,14 @@ invCont.buildByInventoryId = async function (req, res, next) {
   let nav = await utilities.getNav()
   const vehicle = data[0] // single vehicle object
   res.render("./inventory/detail", {
-    title: `${vehicle.inv_make} ${vehicle.inv_model}`,
+    title: `${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}`,
     nav,
     detail
   })
+}
+
+invCont.triggerErrors = async function (req, res, next) {
+  throw new Error("This is an intentional error for testing - No fuse!"); 
 }
 
 module.exports = invCont
