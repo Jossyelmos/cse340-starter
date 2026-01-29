@@ -3,12 +3,19 @@
   <% } else { %>
     <h1>Oops! Something went wrong</h1>
   <% } %>
-  <%- messages() %>
+
+  <% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
 
   <div class="form-container">
-      <form id="login">
+      <form id="loginForm" action="/account/login" method="post">
         <label for="email">Email</label>
-        <input type="email" id="email" name="account_email" required>
+        <input type="text" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
          
         <label for="password">Password</label>
         <input 
@@ -16,7 +23,6 @@
           id="password" 
           name="account_password" 
           required
-          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
         >
   
         <button type="submit">Login</button>
