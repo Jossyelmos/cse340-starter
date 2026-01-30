@@ -1,0 +1,40 @@
+const { body, validationResult } = require("express-validator")
+const utilities = require("../utilities")
+
+const inventoryRules = () => {
+  return [
+    body("inv_make").trim().notEmpty().withMessage("Make is required."),
+    body("inv_model").trim().notEmpty().withMessage("Model is required."),
+    body("inv_price").isNumeric().withMessage("Price must be numeric."),
+    body("inv_year").isInt({ min: 1900 }).withMessage("Invalid year."),
+    body("inv_description").notEmpty().withMessage("Description required."),
+    body("inv_miles").isNumeric().withMessage("Mileage must be numeric."),
+    body("inv_color").notEmpty().withMessage("Color required."),
+    body("classification_id").notEmpty().withMessage("Choose a classification."),
+  ]
+}
+
+const checkInventoryData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(
+      req.body.classification_id
+    )
+
+    res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      errors,
+      ...req.body,
+    })
+    return
+  }
+  next()
+}
+
+module.exports = {
+  inventoryRules,
+  checkInventoryData,
+}

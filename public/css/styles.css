@@ -203,3 +203,97 @@ h2 {
 .price {
   font-weight: 700;
 }
+
+
+/* Form CSS */
+form {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #1f6feb;
+  box-shadow: 0 0 0 2px rgba(31, 111, 235, 0.2);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form button,
+form input[type="submit"] {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #1f6feb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+form button:hover,
+form input[type="submit"]:hover {
+  background-color: #1557c0;
+}
+
+#messages {
+  max-width: 700px;
+  margin: 1.5rem auto;
+}
+
+#messages ul {
+  list-style: none;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+#messages .info {
+  background-color: #e7f3ff;
+  border-left: 5px solid #1f6feb;
+  color: #084298;
+}
+
+#messages .success {
+  background-color: #e6fffa;
+  border-left: 5px solid #0f766e;
+  color: #065f46;
+}
+
+#messages .error,
+.notice {
+  background-color: #fdecea;
+  border-left: 5px solid #b91c1c;
+  color: #7f1d1d;
+}
+
+#messages li {
+  margin: 0.3rem 0;
+}

@@ -1,0 +1,46 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else { %>
+    <h1>Oops! Something went wrong</h1>
+<% } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/inv/add-inventory" method="post">
+  <label>Classification</label>
+  <%- classificationList %>
+
+  <label>Make</label>
+  <input name="inv_make" required value="<%= inv_make || '' %>">
+
+  <label>Model</label>
+  <input name="inv_model" required value="<%= inv_model || '' %>">
+
+  <label>Year</label>
+  <input name="inv_year" required value="<%= inv_year || '' %>">
+
+  <label>Price</label>
+  <input name="inv_price" required value="<%= inv_price || '' %>">
+
+  <label>Mileage</label>
+  <input name="inv_miles" required value="<%= inv_miles || '' %>">
+
+  <label>Color</label>
+  <input name="inv_color" required value="<%= inv_color || '' %>">
+
+  <label>Description</label>
+  <textarea name="inv_description"><%= inv_description || '' %></textarea>
+
+  <input name="inv_image" value="/images/vehicles/no-image.png">
+  <input name="inv_thumbnail" value="/images/vehicles/no-image.png">
+
+  <button type="submit">Add Vehicle</button>
+</form>

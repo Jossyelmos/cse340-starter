@@ -35,6 +35,99 @@ invCont.buildByInventoryId = async function (req, res, next) {
   })
 }
 
+
+invCont.buildManagementView = async function(req, res, next) {
+  let nav = await utilities.getNav()
+  req.flash("notice", "Welcome to inventory management.")
+  res.render("inventory/management", {
+    title: "Vehicle Management",
+    nav,
+  })
+}
+
+/* ***************************
+ *  Build add classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res) {
+  let nav = await utilities.getNav()
+
+  res.render("inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+    errors: null
+  })
+
+}
+
+invCont.addClassification = async function (req, res) {
+  const {classification_name} = req.body
+  const result = await invModel.addClassification(classification_name)
+
+  if (result) {
+    req.flash("notice", "Classification added successfully.")
+
+    let nav = await utilities.getNav()
+    res.render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+    })
+    
+  } else {
+    req.flash("notice", "Failed to add classification")
+    res.redirect("/inv/add-classification")
+  }
+}
+
+
+invCont.buildAddInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+
+  res.render("inventory/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    classificationList,
+    errors: null,
+
+    inv_make: "",
+    inv_model: "",
+    inv_year: "",
+    inv_description: "",
+    inv_image: "/images/vehicles/no-image.png",
+    inv_thumbnail: "/images/vehicles/no-image.png",
+    inv_price: "",
+    inv_miles: "",
+    inv_color: "",
+    classification_id: "",
+  })
+}
+
+
+invCont.addInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList(
+    req.body.classification_id
+  )
+
+  const result = await invModel.addInventory(req.body)
+
+  if (result) {
+    req.flash("notice", "Vehicle successfully added.")
+    res.redirect("/inv/")
+  } else {
+    req.flash("notice", "Sorry, the vehicle could not be added.")
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      ...req.body, // 👈 THIS MAKES INPUTS STICKY
+    })
+  }
+}
+
+
+
 invCont.triggerErrors = async function (req, res, next) {
   throw new Error("This is an intentional error for testing - No fuse!"); 
 }

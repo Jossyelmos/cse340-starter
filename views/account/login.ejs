@@ -4,17 +4,19 @@
     <h1>Oops! Something went wrong</h1>
   <% } %>
 
+  <%- messages() %>
+
   <% if (errors) { %>
     <ul class="notice">
-   <% errors.array().forEach(error => { %>
-     <li><%= error.msg %></li>
-  <%  }) %>
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <%  }) %>
    </ul>
   <% } %>
 
   <div class="form-container">
       <form id="loginForm" action="/account/login" method="post">
-        <label for="email">Email</label>
+        <label for="accountEmail">Email</label>
         <input type="text" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
          
         <label for="password">Password</label>
