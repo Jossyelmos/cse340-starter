@@ -14,25 +14,42 @@ const inventoryRules = () => {
   ]
 }
 
+
 const checkInventoryData = async (req, res, next) => {
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     let classificationList = await utilities.buildClassificationList(
       req.body.classification_id
     )
 
+    const inv_id = req.body.inv_id || null
+
     res.render("inventory/add-inventory", {
-      title: "Add Inventory",
+      title: inv_id ? "Edit Inventory" : "Add Inventory",
       nav,
       classificationList,
+
+      formAction: inv_id
+        ? `/inv/update/${inv_id}`
+        : "/inv/add-inventory",
+
+      buttonText: inv_id ? "Update Vehicle" : "Add Vehicle",
+      inv_id,
+
       errors,
       ...req.body,
     })
+
     return
   }
+
   next()
 }
+
+
+
 
 module.exports = {
   inventoryRules,

@@ -1,10 +1,14 @@
 <% if (title) { %>
-    <h1><%= title %></h1>
-  <% } else { %>
-    <h1>Oops! Something went wrong</h1>
+  <h1><%= title %></h1>
+<% } else { %>
+  <h1>Oops! Something went wrong</h1>
 <% } %>
 
-<%- messages() %>
+<% if (messages && messages.notice) { %>
+  <div class="notice">
+    <%= messages.notice %>
+  </div>
+<% } %>
 
 <% if (errors) { %>
   <ul class="notice">
@@ -14,9 +18,11 @@
   </ul>
 <% } %>
 
-<form action="/inv/add-inventory" method="post">
-  <label>Classification</label>
+<form id="<%= isEdit ? 'updateForm' : '' %>" action="<%= formAction %>" method="post">
+
+  <label for="classification_id">Classification</label>
   <%- classificationList %>
+
 
   <label>Make</label>
   <input name="inv_make" required value="<%= inv_make || '' %>">
@@ -42,5 +48,15 @@
   <input name="inv_image" value="/images/vehicles/no-image.png">
   <input name="inv_thumbnail" value="/images/vehicles/no-image.png">
 
-  <button type="submit">Add Vehicle</button>
+  <button type="submit" <%= isEdit ? 'disabled' : '' %>>
+    <%= buttonText %>
+  </button>
+
+  <input type="hidden" name="inv_id"
+    <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+  <% } %>>
 </form>
+
+<% if (formAction.includes("/update/")) { %>
+  <script src="../../js/inv-update.js"></script>
+<% } %>

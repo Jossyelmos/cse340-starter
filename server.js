@@ -76,6 +76,7 @@
 
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const cookieParser = require("cookie-parser")
 require("dotenv").config();
 
 const app = express();
@@ -117,6 +118,10 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
+
+
 
 // ------------------
 // View Engine
@@ -152,6 +157,8 @@ app.use(async (err, req, res, next) => {
     nav,
   });
 });
+
+
 
 // ------------------
 // Server Listening
