@@ -37,7 +37,7 @@ const checkInventoryData = async (req, res, next) => {
 
       buttonText: inv_id ? "Update Vehicle" : "Add Vehicle",
       inv_id,
-
+      isEdit: false,
       errors,
       ...req.body,
     })

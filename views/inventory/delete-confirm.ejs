@@ -1,0 +1,46 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else { %>
+  <h1>Oops! Something went wrong</h1>
+<% } %>
+
+<% if (messages && messages.notice) { %>
+  <div class="notice">
+    <%= messages.notice %>
+  </div>
+<% } %>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<p class="notice warning">
+    Confirm Deletion — This action is permanent and cannot be undone.
+  </p>
+
+<form id="deleteInv" action="<%= formAction %>" method="post">
+
+  <label>Make</label>
+  <input name="inv_make" required value="<%= inv_make || '' %>" readonly>
+
+  <label>Model</label>
+  <input name="inv_model" required value="<%= inv_model || '' %>" readonly>
+
+  <label>Year</label>
+  <input name="inv_year" required value="<%= inv_year || '' %>" readonly>
+
+  <label>Price</label>
+  <input name="inv_price" required value="<%= inv_price || '' %>" readonly>
+
+  <button type="submit">
+    <%= buttonText %>
+  </button>
+
+  <input type="hidden" name="inv_id"
+    <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+  <% } %>>
+</form>

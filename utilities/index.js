@@ -115,6 +115,8 @@ Util.buildClassificationList = async function (classification_id = null) {
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
+  res.locals.loggedin = 0
+
  if (req.cookies.jwt) {
   jwt.verify(
    req.cookies.jwt,
@@ -145,6 +147,21 @@ Util.checkJWTToken = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
+
+
+ /* ****************************************
+ *  Check Account Type (Employee | Admin)
+ * ************************************ */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.loggedin &&
+    (res.locals.accountData.account_type === "Employee" ||
+    res.locals.accountData.account_type === "Admin")
+  ) {
+    return next()
+  }
+  req.flash("notice", "You must be logged in as an employee or administrator to access this page.")
+  return res.redirect("/account/login")
+} 
 
 
 
