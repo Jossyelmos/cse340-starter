@@ -1,0 +1,63 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else { %>
+    <h1>Oops! Something went wrong</h1>
+  <% } %>
+  
+  <% if (messages && messages.notice) { %>
+    <div class="notice">
+      <%= messages.notice %>
+    </div>
+  <% } %>
+  
+  <% if (errors) { %>
+    <ul class="notice">
+      <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <form action="/account/update" method="post">
+  
+    <label for="accountFirstname">First name</label>
+    <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>">
+     
+    <label for="accountLastname">Last name</label>
+    <input type="text" name="account_lastname" id="accountLastname" required value="<%= locals.account_lastname %>">
+
+    <label for="accountEmail">Email address</label>
+    <input type="text" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
+
+    <input type="submit" value="Update Account">
+  
+    <input type="hidden" name="account_id" value="<%= account_id %>">
+  </form>
+
+  <form action="/account/update-password" method="post">
+
+    <fieldset>
+      <legend>Change Password</legend>
+  
+      <p>
+        Entering a new password will replace your existing password.
+        Password must be at least 8 characters long and contain
+        at least one uppercase letter, one number, and one special character.
+      </p>
+  
+      <label for="account_password">New Password</label>
+      <input
+        type="password"
+        name="account_password"
+        id="account_password"
+        required
+        pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).{8,}$"
+      />
+  
+      <input type="hidden" name="account_id" value="<%= account_id %>">
+  
+      <input type="submit" value="Change Password">
+    </fieldset>
+  
+  </form>
+  
