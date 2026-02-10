@@ -57,5 +57,11 @@ router.post(
 
 router.get("/logout", accController.accountLogout)
 
+router.post(
+  "/activity-filter",
+  utilities.checkJWTToken,
+  utilities.handleErrors(accController.filterActivity)
+)
+
 
 module.exports = router

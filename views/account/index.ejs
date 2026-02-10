@@ -22,6 +22,33 @@
   Welcome <%= accountData.account_firstname %>
 </h2>
 
+<h3>Recent Account Activity</h3>
+
+<form method="POST" action="/account/activity-filter">
+  <label for="activity_type">Filter Activity</label>
+  <select name="activity_type" id="activity_type" required>
+    <option value="all">All</option>
+    <option value="Login">Login</option>
+    <option value="Logout">Logout</option>
+  </select>
+  <button type="submit">Filter</button>
+</form>
+
+
+<% if (activity && activity.length > 0) { %>
+  <ul class="activity">
+    <% activity.forEach(event => { %>
+      <li>
+        <strong><%= event.activity_type %></strong> –
+        <%= new Date(event.activity_date).toLocaleString() %>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No recent activity found.</p>
+<% } %>
+
+
 <p>
   <a href="/account/update/<%= accountData.account_id %>">
     Update Account Information

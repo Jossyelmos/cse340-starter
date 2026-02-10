@@ -1,5 +1,6 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
+const activityModel = require("../models/activity-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -28,10 +29,18 @@ async function buildRegister(req, res, next) {
 
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
+
+  const accountData = res.locals.accountData
+
+  const activity = await activityModel.getActivityByAccountId(
+    accountData.account_id
+  )
   req.flash("notice", "You're logged in")
   res.render("account/index", {
     title: "Account Management",
     nav,
+    accountData,
+    activity,
     errors: null
   })
 }
@@ -115,6 +124,9 @@ async function accountLogin(req, res) {
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
+
+      await activityModel.logActivity(accountData.account_id, "Login")
+
       return res.redirect("/account/")
     }
     else {
@@ -210,10 +222,47 @@ async function updatePassword(req, res) {
 }
 
 
+async function filterActivity(req, res) {
+  let nav = await utilities.getNav()
+  const accountData = res.locals.accountData
+  const { activity_type } = req.body
+
+  if (!["all", "Login", "Logout"].includes(activity_type)) {
+    req.flash("notice", "Invalid activity filter.")
+    return res.redirect("/account/")
+  }
+
+  let activity
+  if (activity_type === "all") {
+    activity = await activityModel.getActivityByAccountId(accountData.account_id)
+  } else {
+    activity = await activityModel.getActivityByType(
+      accountData.account_id,
+      activity_type
+    )
+  }
+
+  res.render("account/index", {
+    title: "Account Management",
+    nav,
+    accountData,
+    activity,
+    errors: null
+  })
+}
+
+
+
 /* ***************************
  *  Account Logout
  * ************************** */
 async function accountLogout(req, res) {
+  if (res.locals.accountData) {
+    await activityModel.logActivity(
+      res.locals.accountData.account_id,
+      "Logout"
+    )
+  }
   res.clearCookie("jwt")
   res.redirect("/")
 }
@@ -230,5 +279,6 @@ module.exports = {
    buildUpdateAccount,
    updateAccount,
    updatePassword,
-   accountLogout
+   accountLogout,
+   filterActivity
 }
