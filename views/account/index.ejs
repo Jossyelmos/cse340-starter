@@ -4,12 +4,6 @@
     <h1>Oops! Something went wrong</h1>
 <% } %>
 
-<% if (messages && messages.notice) { %>
-  <div class="notice">
-    <%= messages.notice %>
-  </div>
-<% } %>
-
 <% if (errors) { %>
   <ul class="notice">
     <% errors.array().forEach(error => { %>
@@ -27,6 +21,7 @@
 <form method="POST" action="/account/activity-filter">
   <label for="activity_type">Filter Activity</label>
   <select name="activity_type" id="activity_type" required>
+    <option value="" selected>Select an option</option>
     <option value="all">All</option>
     <option value="Login">Login</option>
     <option value="Logout">Logout</option>
@@ -35,7 +30,7 @@
 </form>
 
 
-<% if (activity && activity.length > 0) { %>
+<% if (typeof activity !== 'undefined' && activity && activity.length > 0) { %>
   <ul class="activity">
     <% activity.forEach(event => { %>
       <li>
@@ -44,7 +39,7 @@
       </li>
     <% }) %>
   </ul>
-<% } else { %>
+<% } else if (typeof activity !== 'undefined') { %>
   <p>No recent activity found.</p>
 <% } %>
 

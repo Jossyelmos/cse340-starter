@@ -35,7 +35,6 @@ async function buildManagement(req, res, next) {
   const activity = await activityModel.getActivityByAccountId(
     accountData.account_id
   )
-  req.flash("notice", "You're logged in")
   res.render("account/index", {
     title: "Account Management",
     nav,
@@ -156,6 +155,7 @@ async function buildUpdateAccount(req, res) {
     account_lastname: accountData.account_lastname,
     account_email: accountData.account_email,
     account_id: accountData.account_id,
+    activity: [],
   })
 }
 
@@ -223,18 +223,26 @@ async function updatePassword(req, res) {
 
 
 async function filterActivity(req, res) {
+  console.log("Full body:", req.body)
+
   let nav = await utilities.getNav()
   const accountData = res.locals.accountData
   const { activity_type } = req.body
 
-  if (!["all", "Login", "Logout"].includes(activity_type)) {
-    req.flash("notice", "Invalid activity filter.")
-    return res.redirect("/account/")
+  // ✅ Server-side whitelist validation
+  const allowedTypes = ["all", "Login", "Logout"]
+
+  if (!allowedTypes.includes(activity_type)) {
+    req.flash("notice", "Invalid activity filter selection.")
+    return res.status(400).redirect("/account/")
   }
 
   let activity
+
   if (activity_type === "all") {
-    activity = await activityModel.getActivityByAccountId(accountData.account_id)
+    activity = await activityModel.getActivityByAccountId(
+      accountData.account_id
+    )
   } else {
     activity = await activityModel.getActivityByType(
       accountData.account_id,
