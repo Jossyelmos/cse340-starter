@@ -223,7 +223,6 @@ async function updatePassword(req, res) {
 
 
 async function filterActivity(req, res) {
-  console.log("Full body:", req.body)
 
   let nav = await utilities.getNav()
   const accountData = res.locals.accountData
